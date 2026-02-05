@@ -16,20 +16,17 @@ runs:
   using: "composite"
   steps:
     - name: Install dependencies
-      shell: bash
+      shell: pwsh
       run: |
-        ACTION_PATH=$(cygpath "$GITHUB_ACTION_PATH")
-        cd "$ACTION_PATH"
+        Set-Location $env:GITHUB_ACTION_PATH
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
 
-
     - name: Run main script
-      shell: bash
+      shell: pwsh
       run: |
-        ACTION_PATH=$(cygpath "$GITHUB_ACTION_PATH")
-        cd "$ACTION_PATH"
-        python src/main.py \
-          --mode "${{ inputs.mode }}" \
-          --provider "${{ inputs.provider }}" \
+        Set-Location $env:GITHUB_ACTION_PATH
+        python src/main.py `
+          --mode "${{ inputs.mode }}" `
+          --provider "${{ inputs.provider }}" `
           --model "${{ inputs.model }}"
