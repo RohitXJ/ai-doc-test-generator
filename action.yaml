@@ -16,17 +16,17 @@ runs:
   using: "composite"
   steps:
     - name: Install dependencies
+      shell: bash
       run: |
         cd "$GITHUB_ACTION_PATH"
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
 
-
     - name: Run main script
+      shell: bash
       run: |
         cd "$GITHUB_ACTION_PATH"
         python src/main.py \
           --mode "${{ inputs.mode }}" \
           --provider "${{ inputs.provider }}" \
           --model "${{ inputs.model }}"
-
