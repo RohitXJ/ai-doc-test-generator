@@ -20,25 +20,9 @@ inputs:
     default: "qwen2.5-coder:0.5b"
 
 runs:
-  using: "composite"
-  steps:
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11' 
-        
-    - name: Install dependencies
-      shell: bash
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r ${{ github.action_path }}/requirements.txt
-
-    - name: Run test generation script
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: |
-        python ${{ github.action_path }}/src/main.py \
-          --mode "${{ inputs.mode }}" \
-          --provider "${{ inputs.provider }}" \
-          --model "${{ inputs.model }}"
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - --mode=${{ inputs.mode }}
+    - --provider=${{ inputs.provider }}
+    - --model=${{ inputs.model }}
