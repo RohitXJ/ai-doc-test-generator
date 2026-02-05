@@ -18,10 +18,19 @@ inputs:
     description: "The LLM model to use for generating tests."
     required: true
     default: "qwen2.5-coder:0.5b"
+  base_sha:
+    description: "The base SHA of the pull request."
+    required: true
+  head_sha:
+    description: "The head SHA of the pull request."
+    required: true
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    BASE_SHA: ${{ inputs.base_sha }}
+    HEAD_SHA: ${{ inputs.head_sha }}
   args:
     - --mode=${{ inputs.mode }}
     - --provider=${{ inputs.provider }}
