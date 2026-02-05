@@ -17,14 +17,16 @@ runs:
   steps:
     - name: Install dependencies
       run: |
+        cd "$GITHUB_ACTION_PATH"
         python -m pip install --upgrade pip
-        python -m pip install -r "${GITHUB_ACTION_PATH}/requirements.txt"
-      shell: bash
+        python -m pip install -r requirements.txt
+
 
     - name: Run main script
       run: |
-        python "${GITHUB_ACTION_PATH}/src/main.py" \
+        cd "$GITHUB_ACTION_PATH"
+        python src/main.py \
           --mode "${{ inputs.mode }}" \
           --provider "${{ inputs.provider }}" \
           --model "${{ inputs.model }}"
-      shell: bash
+
