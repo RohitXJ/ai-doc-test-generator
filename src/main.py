@@ -2,9 +2,13 @@ import argparse
 from diff_extractor import get_python_diff
 from llm_client import generate_tests
 from test_writer import write_tests
+import os
 
 def load_prompt(diff):
-    with open("prompts/python_tests.txt") as f:
+    action_path = os.environ["GITHUB_ACTION_PATH"]
+    prompt_path = os.path.join(action_path, "prompts", "python_tests.txt")
+
+    with open(prompt_path, "r", encoding="utf-8") as f:
         return f.read().replace("{{DIFF}}", diff)
 
 def main():
