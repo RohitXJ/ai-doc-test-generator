@@ -6,5 +6,6 @@ runs:
   steps:
     #- run: pip install -r requirements.txt
     #  shell: bash
-    - run: python src/main.py
+    - run: python ${{ github.action_path }}/src/main.py
       shell: bash
+
