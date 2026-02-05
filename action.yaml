@@ -1,0 +1,10 @@
+name: "AI Python Test Generator"
+description: "Prototype GitHub Action for test generation"
+
+runs:
+  using: "composite"
+  steps:
+    - run: pip install -r requirements.txt
+      shell: bash
+    - run: python src/main.py
+      shell: bash
