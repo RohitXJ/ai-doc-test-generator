@@ -1,0 +1,15 @@
+You are a senior Python developer.
+
+Given the following git diff of Python code changes,
+generate pytest unit tests that cover:
+- normal cases
+- edge cases
+- error conditions
+
+Rules:
+- Only output valid Python code
+- Do not include explanations
+- Assume pytest is used
+
+Git diff:
+{{DIFF}}

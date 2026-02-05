@@ -1,13 +1,33 @@
 name: "AI Python Test Generator"
 description: "Prototype GitHub Action"
 
+inputs:
+  mode:
+    description: "llm mode: local or cloud"
+    required: true
+    default: "local"
+
+  provider:
+    description: "llm provider (ollama, openai)"
+    required: true
+    default: "ollama"
+
+  model:
+    description: "model name"
+    required: true
+    default: "qwen2.5-coder:0.5b"
+
 runs:
   using: "composite"
   steps:
     - name: Install dependencies
-      if: ${{ github.action_path }}/requirements.txt.exists
       run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
+
     - name: Run main script
-      run: python ${{ github.action_path }}/src/main.py
+      run: |
+        python ${{ github.action_path }}/src/main.py \
+          --mode "${{ inputs.mode }}" \
+          --provider "${{ inputs.provider }}" \
+          --model "${{ inputs.model }}"
       shell: bash
