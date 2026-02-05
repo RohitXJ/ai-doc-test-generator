@@ -1,11 +1,13 @@
 name: "AI Python Test Generator"
-description: "Prototype GitHub Action for test generation"
+description: "Prototype GitHub Action"
 
 runs:
   using: "composite"
   steps:
-    #- run: pip install -r requirements.txt
-    #  shell: bash
-    - run: python ${{ github.action_path }}/src/main.py
+    - name: Install dependencies
+      if: ${{ github.action_path }}/requirements.txt.exists
+      run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
-
+    - name: Run main script
+      run: python ${{ github.action_path }}/src/main.py
+      shell: bash
