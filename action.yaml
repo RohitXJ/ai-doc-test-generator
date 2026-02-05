@@ -27,7 +27,6 @@ runs:
       shell: cmd
 
     - name: Run main script
-      shell: cmd
       env:
         MODE: ${{ inputs.mode }}
         PROVIDER: ${{ inputs.provider }}
@@ -37,4 +36,5 @@ runs:
         --mode "%MODE%"
         --provider "%PROVIDER%"
         --model "%MODEL%"
+      shell: cmd
 
