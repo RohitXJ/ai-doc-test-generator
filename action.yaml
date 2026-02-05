@@ -27,9 +27,14 @@ runs:
       shell: cmd
 
     - name: Run main script
-      run: |
-        python ${{ github.action_path }}/src/main.py \
-          --mode "${{ inputs.mode }}" \
-          --provider "${{ inputs.provider }}" \
-          --model "${{ inputs.model }}"
       shell: cmd
+      env:
+        MODE: ${{ inputs.mode }}
+        PROVIDER: ${{ inputs.provider }}
+        MODEL: ${{ inputs.model }}
+      run: >
+        python "%GITHUB_ACTION_PATH%\src\main.py"
+        --mode "%MODE%"
+        --provider "%PROVIDER%"
+        --model "%MODEL%"
+
