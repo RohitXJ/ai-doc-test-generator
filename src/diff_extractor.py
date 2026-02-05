@@ -2,19 +2,20 @@ import subprocess
 import os
 
 def get_python_diff():
-    base = os.environ.get("GITHUB_BASE_REF")
+    base_sha = os.environ.get("GITHUB_EVENT_PULL_REQUEST_BASE_SHA")
+    head_sha = os.environ.get("GITHUB_EVENT_PULL_REQUEST_HEAD_SHA")
 
-    if not base:
-        # fallback for non-PR runs
-        cmd = ["git", "diff", "HEAD~1", "--", "*.py"]
-    else:
-        # PR run (this is your case)
-        cmd = ["git", "diff", f"origin/{base}...HEAD", "--", "*.py"]
+    if not base_sha or not head_sha:
+        print("Not a PR run or missing SHAs")
+        return ""
 
-    result = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True
-    )
+    cmd = [
+        "git",
+        "diff",
+        f"{base_sha}...{head_sha}",
+        "--",
+        "*.py"
+    ]
 
+    result = subprocess.run(cmd, capture_output=True, text=True)
     return result.stdout.strip()
