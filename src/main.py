@@ -36,5 +36,4 @@ def main():
     print("✅ Tests generated successfully")
 
 if __name__ == "__main__":
-    print(get_python_diff())
     main()

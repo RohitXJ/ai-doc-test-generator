@@ -1,32 +1,44 @@
 name: "AI Python Test Generator"
-description: "Prototype GitHub Action"
+description: "Generates Python unit tests from code changes in a pull request."
+
+branding:
+  icon: 'code'
+  color: 'blue'
 
 inputs:
   mode:
+    description: "The mode to run the action in. Currently only 'local' is supported."
     required: true
     default: "local"
   provider:
+    description: "The LLM provider to use. Currently only 'ollama' is supported."
     required: true
     default: "ollama"
   model:
+    description: "The LLM model to use for generating tests."
     required: true
     default: "qwen2.5-coder:0.5b"
 
 runs:
   using: "composite"
   steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11' 
+        
     - name: Install dependencies
-      shell: pwsh
+      shell: bash
       run: |
-        Set-Location $env:GITHUB_ACTION_PATH
         python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
+        pip install -r ${{ github.action_path }}/requirements.txt
 
-    - name: Run main script
-      shell: pwsh
+    - name: Run test generation script
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       run: |
-        Set-Location $env:GITHUB_ACTION_PATH
-        python src/main.py `
-          --mode "${{ inputs.mode }}" `
-          --provider "${{ inputs.provider }}" `
+        python ${{ github.action_path }}/src/main.py \
+          --mode "${{ inputs.mode }}" \
+          --provider "${{ inputs.provider }}" \
           --model "${{ inputs.model }}"
