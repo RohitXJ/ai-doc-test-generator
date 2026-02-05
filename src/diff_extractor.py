@@ -1,4 +1,8 @@
 import subprocess
+
+subprocess.run(["git", "status"])
+subprocess.run(["git", "log", "--oneline", "-5"])
+
 import os
 
 def get_python_diff():
